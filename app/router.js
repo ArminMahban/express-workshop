@@ -1,15 +1,13 @@
 import { Router } from 'express';
-import * as Posts from './controllers/post';
+import * as Quotes from './controllers/quote';
 
 const router = Router();
 
 router.route('/posts/:id')
-  .get(Posts.getPost)
-  .put(Posts.updatePost)
-  .delete(Posts.deletePost);
+  .delete(Quotes.deleteQuote);
 
 router.route('/posts')
-  .get(Posts.getPosts)
-  .post(Posts.createPost);
+  .get(Quotes.getQuotes)
+  .post(Quotes.createQuote);
 
 export default router;

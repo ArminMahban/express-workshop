@@ -1,14 +1,15 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import path from 'path';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
 
 import apiRouter from './router';
 
+const debug = require('debug')('app:server');
+
 // DB Setup
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/cs52poll');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/expressworkshop');
 // set mongoose promises to es6 default
 mongoose.Promise = global.Promise;
 
@@ -18,11 +19,8 @@ const app = express();
 // enable/disable cross origin resource sharing if necessary
 app.use(cors());
 
-app.set('view engine', 'ejs');
-app.use(express.static('static'));
 // enables static assets from folder static
-app.set('views', path.join(__dirname, '../app/views'));
-// this just allows us to render ejs from the ../app/views directory
+app.use(express.static('static'));
 
 // enable json message body for posting data to API
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -33,8 +31,15 @@ app.use(morgan('dev'));
 // all of our routes will be prefixed with /api
 app.use('/api', apiRouter);
 
-app.use((err, req, res) => {
-  res.status(500).json({ err });
+app.get('/err', (req, res, next) => {
+  const error = new Error('woops!');
+  error.status = 500;
+  next(error);
+});
+
+app.use((err, req, res, next) => {
+  debug(`Error\n${err.stack}`);
+  res.status(err.status || 500).json({ err });
 });
 
 // START THE SERVER
