@@ -38,8 +38,9 @@ __Windows__
 Go to the [node](https://nodejs.org/en/) and click install node 7.
 
 We also need to install mongodb
-[Mac](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/)
-[Windows](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/)
+
+- [Mac](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/)
+- [Windows](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/)
 
 ### Starter Code
 
@@ -90,3 +91,74 @@ You should see a blank quote board:
 
 ![Quote Blank](./static/images/blank.png)
 
+## Express
+Open up app/server.js. This is where the configuration for our app lives. You'll
+notice on line 32 that we have connected routes to our app.
+
+Lets take a deeper look. Open up app/router.js.
+
+#### The anatomy of an express route
+```javascript
+app.get('/:name', (req, res, next) => {
+	const name = req.params.name;
+
+	res.json({ message: `Hello name ${name}`});
+});
+```
+
+#### CRUD
+- Create 
+- Read 
+- Update
+- Delete
+
+In the interest of time we will be implementing create and delete.
+
+#### Create
+There is a form created for you. Click the link in the top right corner of the
+webpage.
+
+For this to work we need a corresponding post on the backend to save our data to
+the database. I have already hooked up the route on the backend be the handling
+logic needs to be completed.
+
+First to verify that the route is working by running a curl command.
+```bash
+$ curl -X POST -H "Content-Type: application/json" -d '{
+	"text": "This is a test quote",
+	"author": "me"
+}' "http://localhost:9090/api/posts"
+```
+
+If you reload the page you should see your test post.
+
+Let's implement the createQuote route handler in app/controllers/quote.js
+
+```javascript
+const newQuote = new Quote(req.body);
+
+newQuote.save()
+  .then((post) => {
+    res.json({ message: 'post created' });
+  })
+  .catch((error) => { next(error); });
+```
+
+
+#### Delete
+We need to find the corresponding quote and remove it. We need to grab the id
+off of params as discussed earlier in order to do this.
+
+```javascript
+  Quote.findById(req.params.id)
+    .then((post) => post.remove()) // eslint-disable-line
+    .then(() => { res.sendStatus(200); })
+    .catch((error) => { next(error); });
+```
+
+### Error handling in Express
+An express middleware function that takes 4 paramaters can handle errors. We can
+do this centrally and I have included an example in [app/server.js](./app/server.js)
+
+Since we have a catch all error handler we can use next(err) when errors arrise
+in our routes.

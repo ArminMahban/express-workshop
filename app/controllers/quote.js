@@ -1,13 +1,7 @@
 import Quote from '../models/quote';
 
 export const createQuote = (req, res, next) => {
-  const newQuote = new Quote(req.body);
-
-  newQuote.save()
-    .then((post) => {
-      res.json({ message: 'post created' });
-    })
-    .catch((error) => { next(error); });
+  res.json({ message: 'create route is connected' });
 };
 
 export const getQuotes = (req, res, next) => {
@@ -20,8 +14,5 @@ export const getQuotes = (req, res, next) => {
 };
 
 export const deleteQuote = (req, res, next) => {
-  Quote.findById(req.params.id)
-    .then((post) => post.remove()) // eslint-disable-line
-    .then(() => { res.sendStatus(200); })
-    .catch((error) => { next(error); });
+  res.json({ message: 'delete route is connected' });
 };
