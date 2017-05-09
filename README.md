@@ -6,9 +6,8 @@
 
 ## What We Will Be Building
 A quote board site with the ability to
-1. Create Post
-1. Edit a Post
-1. Delete a Post
+1. Create a Quote
+1. Delete a Quote
 
 ## What are Node.js and Express?
 [Node.js](https://nodejs.org/en/) is a Javascript environment that allows us to
@@ -35,7 +34,12 @@ $ nvm install node
 ```
 
 __Windows__
+
 Go to the [node](https://nodejs.org/en/) and click install node 7.
+
+We also need to install mongodb
+[Mac](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/)
+[Windows](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/)
 
 ### Starter Code
 
@@ -64,3 +68,25 @@ $ npm install --save-dev <PACKAGE> # saves the package as a development dependen
 ```
 
 Aside: [yarn](https://yarnpkg.com/en/) is a new package manager that is gaining popularity.
+
+### Up and running
+The [package.json](./package.json) file contains a few scripts to get started.
+
+#### Scripts
+```bash
+$ npm run dev # runs the server in reloading mode using nodemon
+$ npm run start # runs the server with babel
+$ npm run build # transpiles the server for production use
+$ npm run prod # builds and runs the server for production use
+```
+
+Run the server!
+```bash
+$ npm run dev
+```
+
+then open your browser to [http://localhost:9090](http://localhost:9090)
+You should see a blank quote board:
+
+![Quote Blank](./static/images/blank.png)
+

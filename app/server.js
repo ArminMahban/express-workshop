@@ -37,6 +37,7 @@ app.get('/err', (req, res, next) => {
   next(error);
 });
 
+// NOTE: not for production use!
 app.use((err, req, res, next) => {
   debug(`Error\n${err.stack}`);
   res.status(err.status || 500).json({ err });
