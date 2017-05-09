@@ -119,7 +119,7 @@ There is a form created for you. Click the link in the top right corner of the
 webpage.
 
 For this to work we need a corresponding post on the backend to save our data to
-the database. I have already hooked up the route on the backend be the handling
+the database. I have already hooked up the route on the backend but the handling
 logic needs to be completed.
 
 First to verify that the route is working by running a curl command.
